@@ -1,17 +1,21 @@
-// Imports
+// Configure Imports
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
 
+
 // Configure Knex
+const db = knex(knexConfig);
 
 
-// Configure database
-
+// Configure Server
 const server = express();
 
+
+// Configure Middleware
 server.use(express.json());
 server.use(helmet());
+
 
 // Endpoints
 
