@@ -1,4 +1,7 @@
-// Update with your config settings.
+// npx knex init creates knexfile.js.
+// Ok to delete production and stagging.
+// Add useNullAsDefault: true,.
+// Configure filename to our database.
 
 module.exports = {
   development: {
