@@ -1,3 +1,5 @@
+// npx knex seed:make <name>
+// npx knex seed:run
 
 exports.seed = function (knex, Promise) {
   // truncate Deletes ALL existing entries from the table and also resets the id.
