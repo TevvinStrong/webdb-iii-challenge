@@ -55,7 +55,18 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 server.get('/api/cohorts/:id/students', (req, res) => {
-
+    db('students')
+        .where({ cohort_id: req.params.id })
+        .then(students => {
+            if (students) {
+                res.status(200).json(students);
+            } else {
+                res.status(404).json({ message: `No students in cohort id # ${req.params.id} found` });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ error: "Unable to get the specified id.", error });
+        })
 });
 
 server.put('/api/cohorts/:id', (req, res) => {
