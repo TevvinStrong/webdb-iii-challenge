@@ -1,13 +1,17 @@
-// npx knex init creates knexfile.js.
-// Ok to delete production and stagging.
-// Add useNullAsDefault: true,.
-// Configure filename to our database.
+// Update with your config settings.
 
 module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
       filename: './data/lambda.db3',
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./migrations",
+    },
+    seeds: {
+      directory: "./seeds",
     },
     useNullAsDefault: true, // needed for a sqlite3 database
   }
