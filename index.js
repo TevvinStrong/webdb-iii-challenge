@@ -50,7 +50,7 @@ server.get('/api/cohorts/:id', (req, res) => {
             }
         })
         .catch(error => {
-            res.status(500).json({ error: "The specified id does not exists" });
+            res.status(500).json({ error: "The specified id does not exists", error });
         })
 });
 
@@ -59,11 +59,31 @@ server.get('/api/cohorts/:id/students', (req, res) => {
 });
 
 server.put('/api/cohorts/:id', (req, res) => {
-
+    db('cohorts').where({ id: req.params.id }).update(req.body)
+        .then(count => {
+            if (count > 0) {
+                res.status(200).json({ message: `${count} record updated` });
+            } else {
+                res.status(404).json({ message: "Cohort does not exisit." });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ error: "Unable to updates the specified id.", error });
+        })
 });
 
 server.delete('/api/cohorts/:id', (req, res) => {
-
+    db('cohorts').where({ id: req.params.id }).del(req.body)
+        .then(count => {
+            if (count > 0) {
+                res.status(200).json(`${count} record deleted`);
+            } else {
+                res.status(404).json({ message: "Cohort does not exists" });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ error: "Unable to delete the specified id.", error });
+        })
 });
 
 // Stretch
