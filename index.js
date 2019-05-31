@@ -2,6 +2,8 @@
 const express = require('express');
 const helmet = require('helmet');
 const knex = require('knex');
+const knexConfig = require('./knexfile.js');
+const db = knex(knexConfig.development);
 
 
 // Configure Server
@@ -19,15 +21,37 @@ server.get('/', (req, res) => {
 
 // Endpoints
 server.post('/api/cohorts', (req, res) => {
-
+    db('cohorts').insert(req.body, ['name'])
+        .then(cohort => {
+            res.status(200).json(cohort);
+        })
+        .catch(error => {
+            res.status(404).json({ error: "Unable to add to the database try again.", error });
+        });
 });
 
 server.get('/api/cohorts', (req, res) => {
-
+    db('cohorts')
+        .then(cohort => {
+            res.status(200).json(cohort);
+        })
+        .catch(error => {
+            res.status(404).json({ error: "Unable to retrieve the specified request from the database.", error });
+        });
 });
 
 server.get('/api/cohorts/:id', (req, res) => {
-
+    db('cohorts').where({ id: req.params.id })
+        .then(cohort => {
+            if (cohort) {
+                res.status(200).json(cohort);
+            } else {
+                res.status(404).json({ message: "Cohort not found." })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ error: "The specified id does not exists" });
+        })
 });
 
 server.get('/api/cohorts/:id/students', (req, res) => {
